@@ -10,6 +10,8 @@ export 'package:flutter_svg/flutter_svg.dart';
 export 'package:get/get.dart';
 export 'package:get_storage/get_storage.dart';
 export 'package:path_provider/path_provider.dart';
+export 'package:utilities/widget/image.dart';
+export 'package:utilities/util/app_icons.dart';
 
 
 class Utilities {
