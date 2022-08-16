@@ -1,5 +1,5 @@
 class AppIcons {
-  static const String _base = "lib/assets/icons";
+  static const String _base = "lib/assets/svg";
   static const String add = "$_base/add.svg";
   static const String avatar = "$_base/avatar.png";
   static const String back = "$_base/back.svg";
