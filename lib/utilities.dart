@@ -12,6 +12,7 @@ export 'package:get_storage/get_storage.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:utilities/widget/image.dart';
 export 'package:utilities/util/app_icons.dart';
+export 'package:utilities/util/local_storage.dart';
 
 
 class Utilities {
