@@ -13,6 +13,7 @@ export 'package:path_provider/path_provider.dart';
 export 'package:utilities/widget/image.dart';
 export 'package:utilities/util/app_icons.dart';
 export 'package:utilities/util/local_storage.dart';
+export 'package:utilities/util/http_interceptor.dart';
 
 
 class Utilities {
