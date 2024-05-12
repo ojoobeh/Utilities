@@ -1,244 +1,354 @@
 part of 'components.dart';
 
-enum ButtonType { elevated, text, outlined }
-
-Widget textField({
-  final String? text,
-  final String? labelText,
-  final double? fontSize,
+Widget textFormField({
   final TextEditingController? controller,
-  final TextInputType? keyboardType = TextInputType.text,
-  final String? hintText,
-  final bool obscureText = false,
-  final int lines = 1,
-  final VoidCallback? onTap,
-  final bool hasClearButton = false,
-  final bool required = false,
-  final String? Function(String?)? validator,
-  final Widget? prefix,
+  final String? paramCheck,
+  final String? hint,
   final Widget? suffix,
-  final Function(String? value)? onSave,
-  final EdgeInsets margin = EdgeInsets.zero,
-  final TextAlign textAlign = TextAlign.start,
-  final String? initialValue,
-  final bool? readOnly,
-  final double? textHeight,
-  final EdgeInsetsGeometry? contentPadding,
-  final ValueChanged<String>? onChanged,
-  final ValueChanged<String>? onFieldSubmitted,
+  final Widget? prefix,
+  final Function(String value)? onChanged,
+  final Function(String value)? onFieldSubmitted,
+  final Function(String? value)? onSaved,
+  final TextAlign? textAlign,
+  final TextInputType? inputType,
   final int? maxLength,
-  final List<TextInputFormatter>? formatters,
-  final List<String>? autoFillHints,
-}) {
-  bool obscure = obscureText;
-  return StatefulBuilder(
-    builder: (final BuildContext context, final StateSetter setState) => column(
-      margin: margin,
+  final int? maxLines,
+  final int? minLines,
+  final int? customLaxLength,
+  final EdgeInsets? contentPadding,
+  final TextInputAction? textInputAction,
+  final FormFieldValidator<String>? validator,
+  final List<TextInputFormatter>? inputFormatters,
+  final VoidCallback? onTap,
+  final Color? fillColor,
+  final Color? borderColor,
+  final Color? errorBorderColor,
+  final Color? hintTextColor,
+  final TextDirection? hintTextDirection,
+  final TextDirection? textDirection,
+  final FocusNode? focusNode,
+  final bool? enable,
+  final String? title,
+  final String? label,
+  final String? initialValue,
+  final TextStyle? hintStyle,
+  final TextStyle? textStyle,
+  final EdgeInsets? margin,
+  final InputDecoration? decoration,
+  final bool autoFocus = false,
+  final double borderRadius = 10,
+  final double? height,
+  final TextAlignVertical? textAlignVertical,
+  final ValueChanged<String>? onSubmitted,
+  final double enabledBorderRadius = 10,
+  final AutovalidateMode? autovalidateMode,
+}) =>
+    Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        if (text != null)
-          iconTextHorizontal(
-            leading: Text(text, style: textTheme.titleSmall),
-            trailing: required ? Text("*").bodyMedium(color: context.theme.colorScheme.error) : SizedBox(),
-          ).paddingSymmetric(vertical: 8),
-        TextFormField(
-          autofillHints: autoFillHints,
-          textDirection: keyboardType == TextInputType.number ? TextDirection.ltr : TextDirection.rtl,
-          inputFormatters: formatters,
-          style: TextStyle(fontSize: fontSize),
-          maxLength: maxLength,
-          onChanged: onChanged,
-          readOnly: readOnly ?? false,
-          initialValue: initialValue,
-          textAlign: textAlign,
-          onSaved: onSave,
-          onTap: onTap,
-          controller: controller,
-          keyboardType: keyboardType,
-          obscureText: obscure,
-          validator: validator,
-          minLines: lines,
-          onFieldSubmitted: onFieldSubmitted,
-          maxLines: lines == 1 ? 1 : 20,
-          decoration: InputDecoration(
-            labelText: labelText,
-            helperStyle: const TextStyle(fontSize: 0),
-            hintText: hintText,
-            contentPadding: contentPadding ?? const EdgeInsets.fromLTRB(10, 0, 10, 0),
-            suffixIcon: obscureText
-                ? IconButton(
-                    splashRadius: 1,
-                    onPressed: () => setState(() => obscure = !obscure),
-                    icon: obscure ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
-                  )
-                : suffix,
-            prefixIcon: prefix,
+        if (title != null) Text(title).bodyMedium().marginOnly(bottom: 8),
+        SizedBox(
+          height: height,
+          child: TextFormField(
+            enabled: enable,
+            autovalidateMode: autovalidateMode,
+            controller:initialValue==null? controller:null,
+            onChanged: onChanged,
+            validator: validator,
+            onFieldSubmitted: onSubmitted,
+
+            textAlignVertical: textAlignVertical ?? TextAlignVertical.top,
+            onTap: () {
+              onTap?.call();
+              if (controller!.selection == TextSelection.fromPosition(TextPosition(offset: controller.text.length - 1))) {
+                controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
+              }
+            },
+            textAlign: textAlign ?? TextAlign.start,
+            keyboardType: inputType,
+            maxLength: maxLength,
+            maxLines: maxLines,
+            minLines: minLines,
+            autofocus: autoFocus,
+            initialValue: initialValue,
+            textDirection: textDirection ??TextDirection.rtl,
+            focusNode: focusNode,
+            inputFormatters: inputFormatters,
+
+            textInputAction: textInputAction,
+            style: textStyle ?? context.textTheme.bodyMedium!.copyWith(fontSize: 18, color: context.theme.primaryColorDark),
+            decoration: decoration ??
+                InputDecoration(
+                  isDense: true,
+
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide(color: borderColor??Colors.transparent ,width: 2),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide(color: borderColor ?? context.theme.unselectedWidgetColor),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide(color: borderColor ?? context.theme.unselectedWidgetColor),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide(color: borderColor ?? context.theme.unselectedWidgetColor),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide(color: borderColor ?? Colors.red),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide(color: errorBorderColor ?? Colors.red,width: 2),
+                  ),
+                  filled: true,
+                  fillColor: fillColor ?? Colors.transparent,
+                  counterText: "",
+                  label: label!=null?Text(label).bodyLarge(color: context.theme.primaryColorDark.withOpacity(0.6)) : null,
+                  hintText: hint,
+                  labelStyle:hintStyle?? TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,//
+                      color:focusNode!=null && focusNode.hasPrimaryFocus ? Colors.transparent : context.theme.unselectedWidgetColor
+                  ),
+                  // labelStyle: context.textTheme.bodyLarge!.copyWith(color: context.theme.primaryColorDark.withOpacity(0.5)),
+                  hintStyle: hintStyle ?? textTheme.bodySmall!.copyWith(color: hintTextColor ?? context.theme.hintColor),
+                  contentPadding: contentPadding ?? const EdgeInsets.fromLTRB(12, 14, 12, 14),
+                  suffixIcon: suffix,
+                  prefixIcon: prefix,
+                  hintTextDirection: hintTextDirection,
+                  prefixIconConstraints: const BoxConstraints(
+                    maxHeight: 64,
+                    maxWidth: 64,
+                  ),
+                ),
           ),
         ),
       ],
+    );
+
+Widget appTextFormFieldUploadNumerical({
+  final TextEditingController? controller,
+  final String? paramCheck,
+  final String? hint,
+  final Widget? suffix,
+  final Widget? prefix,
+  final Function(String value)? onChanged,
+  final Function(String value)? onFieldSubmitted,
+  final Function(String? value)? onSaved,
+  final TextAlign? textAlign,
+  final TextInputType? inputType,
+  final int? maxLength,
+  final int? maxLines,
+  final int? minLines,
+  final int? customLaxLength,
+  final EdgeInsets? contentPadding,
+  final TextInputAction? textInputAction,
+  final FormFieldValidator<String>? validator,
+  final List<TextInputFormatter>? inputFormatters,
+  final VoidCallback? onTap,
+  final Color? fillColor,
+  final Color? borderColor,
+  final Color? hintTextColor,
+  final TextDirection? hintTextDirection,
+  final TextDirection? textDirection,
+  final FocusNode? focusNode,
+  final bool? enable,
+  final String? title,
+  final String? lable,
+  final TextStyle? hintStyle,
+  final TextStyle? textStyle,
+  final EdgeInsets? margin,
+  final InputDecoration? decoration,
+  final bool autoFocus = false,
+  final double borderRadius = 10,
+  final double? height,
+  final double enabledBorderRadius = 10,
+}) =>
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        if (title != null) Text(title).bodyMedium().marginOnly(bottom: 8),
+        SizedBox(
+          height: height,
+          child: TextFormField(
+            enabled: enable,
+            controller: controller,
+            onChanged: onChanged,
+            onTap: () {
+              onTap?.call();
+              if (controller!.selection == TextSelection.fromPosition(TextPosition(offset: controller.text.length - 1))) {
+                controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
+              }
+            },
+            textAlign: textAlign ?? TextAlign.start,
+            keyboardType: inputType,
+            maxLength: maxLength,
+            validator: validator,
+            maxLines: maxLines,
+            minLines: minLines,
+            autofocus: autoFocus,
+            textDirection: textDirection ,
+            focusNode: focusNode,
+            textAlignVertical: TextAlignVertical.center,
+            inputFormatters: inputFormatters,
+            textInputAction: textInputAction,
+            style: textStyle ?? context.textTheme.bodyMedium!.copyWith(fontSize: 13, color: context.theme.primaryColorDark),
+            decoration: decoration ??
+                InputDecoration(
+                  isDense: true,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide(color: borderColor ?? Colors.transparent),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide(color: borderColor ?? Colors.transparent),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide(color: borderColor ?? Colors.transparent),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide(color: borderColor ?? Colors.transparent),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide(color: borderColor ?? Colors.transparent),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    borderSide: BorderSide(color: borderColor ?? Colors.transparent),
+                  ),
+                  filled: true,
+                  fillColor: fillColor ?? context.theme.cardColor,
+                  counterText: "",
+                  labelText: hint ?? lable,
+                  labelStyle: context.textTheme.bodyLarge!.copyWith(color: context.theme.primaryColorDark.withOpacity(0.5)),
+                  hintStyle: hintStyle ?? textTheme.bodyLarge!.copyWith(color: hintTextColor ?? context.theme.hintColor),
+                  contentPadding: contentPadding ?? const EdgeInsets.fromLTRB(20, 16, 20, 16),
+                  suffixIcon: suffix,
+                  prefixIcon: prefix,
+                  hintTextDirection: hintTextDirection,
+                ),
+          ),
+        ),
+      ],
+    );
+
+Widget searchField({
+  final BuildContext? ctx,
+  final TextEditingController? controller,
+  final String? hint,
+  final Widget? suffix,
+  final Widget? prefix,
+  final Function(String)? onChanged,
+  final TextAlign? textAlign,
+  final TextInputType? inputType,
+  final ValueChanged<String>? onSubmitted,
+  final int? maxLines,
+  final int? minLines,
+  final Color? fillColor,
+  final Color? borderColor,
+  final Function(String)? onFieldSubmitted,
+  final Color? hintTextColor,
+  final EdgeInsets? contentPadding,
+  final FormFieldValidator<String>? validator,
+  final VoidCallback? onTap,
+  final TextDirection? textDirection,
+  final FocusNode? focusNode,
+  final bool autoFocus = false,
+  final VoidCallback? onSuffixTap,
+  final VoidCallback? onTapFilter,
+  final bool withFilter = false,
+}) {
+  String param = '';
+  // final Widget persianSearchPrefix = Container(
+  //   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8), //
+  //   child: Icon(Icons.search, color: context.theme.primaryColorDark, size: 18).onTap(() {
+  //     if (onSubmitted != null) {
+  //       onSubmitted(param);
+  //     }
+  //   }),
+  // );
+  final Widget? persianSearchSuffix = withFilter ? Icon(Icons.filter, color: context.theme.primaryColorDark, size: 24).marginSymmetric(horizontal: 8).onTap(onTapFilter) : suffix;
+  // final Widget? englishSearchSuffix = withFilter ? Icon(Icons.filter, color: context.theme.primaryColorDark, size: 24).marginSymmetric(horizontal: 8).onTap(onTapFilter) : suffix;
+  final Widget englishSearchPrefix = Container(
+    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8), //
+    child: Icon(Icons.search, color: context.theme.primaryColorDark, size: 18).onTap(() {
+      if (onSubmitted != null) {
+        onSubmitted(param);
+      }
+    }),
+  );
+  return textFormField(
+    controller: controller,
+    hintTextColor: context.theme.primaryColorDark,
+    onChanged: (final String value) {
+      param = value;
+      if (onChanged != null) {
+        onChanged(value);
+      }
+    },
+    textAlign: textAlign ?? TextAlign.start,
+    textAlignVertical: TextAlignVertical.center,
+    inputType: inputType,
+    textInputAction: onSubmitted != null ? TextInputAction.go : null,
+    maxLines: 1,
+    textDirection: textDirection ,
+    autoFocus: autoFocus,
+    focusNode: focusNode,
+    minLines: minLines,
+    onSubmitted: onSubmitted,
+    onFieldSubmitted: onFieldSubmitted,
+    validator: validator,
+    onTap: onTap,
+    decoration: InputDecoration(
+      isDense: true,
+      filled: true,
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: borderColor ?? Colors.transparent),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: borderColor ?? Colors.transparent),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: borderColor ?? Colors.transparent),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: borderColor ?? Colors.transparent),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: borderColor ?? Colors.transparent),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: borderColor ?? Colors.transparent),
+      ),
+      hintText: hint ??'Search',
+      fillColor: fillColor ?? ( Colors.blueGrey),
+      prefixIconConstraints: const BoxConstraints(
+        maxHeight: 64,
+        maxWidth: 64,
+      ),
+      suffixIconConstraints: const BoxConstraints(
+        maxHeight: 64,
+        maxWidth: 64,
+      ),
+      hintStyle: textTheme.bodyLarge!.copyWith(color: hintTextColor ?? context.theme.hintColor),
+      contentPadding: contentPadding ??  EdgeInsets.zero,
+      suffixIcon:  persianSearchSuffix ,
+      prefixIcon:  englishSearchPrefix,
     ),
   );
 }
-
-Widget textFieldPersianDatePicker({
-  required final Function(DateTime, Jalali) onChange,
-  final String? text,
-  final double? fontSize,
-  final String? hintText,
-  final int lines = 1,
-  final Widget? prefix,
-  final Widget? suffix,
-  final EdgeInsets margin = EdgeInsets.zero,
-  final TextAlign textAlign = TextAlign.start,
-  final double? textHeight,
-  final TextEditingController? controller,
-  final Jalali? initialDate,
-  final Jalali? startDate,
-  final Jalali? endDate,
-}) {
-  final Rx<Jalali> jalali = (initialDate ?? Jalali.now()).obs;
-  return textField(
-    controller: controller,
-    margin: margin,
-    text: text,
-    fontSize: fontSize,
-    hintText: hintText,
-    textAlign: textAlign,
-    readOnly: true,
-    textHeight: textHeight,
-    onTap: () async {
-      jalali(
-        await showPersianDatePicker(
-          context: context,
-          initialDate: jalali.value,
-          firstDate: startDate ?? Jalali(1320),
-          lastDate: endDate ?? Jalali(1405),
-        ),
-      );
-      onChange(jalali.value.toDateTime(), jalali.value);
-    },
-  );
-}
-
-Widget button({
-  final String? title,
-  final Widget? titleWidget,
-  final VoidCallback? onTap,
-  final IconData? icon,
-  final double? width,
-  final double? height,
-  final TextStyle? textStyle,
-  final Color? backgroundColor,
-  final ButtonType buttonType = ButtonType.elevated,
-  final EdgeInsets? padding,
-  final PageState state = PageState.initial,
-  final int countDownSeconds = 120,
-}) {
-  final Rx<PageState> buttonState = state.obs;
-  if (buttonType == ButtonType.elevated)
-    return Obx(
-          () {
-        if (buttonState.value == PageState.initial)
-          return ElevatedButton(
-            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(backgroundColor), padding: MaterialStateProperty.all(padding)),
-            onPressed: onTap,
-            child: SizedBox(
-              height: height ?? 20,
-              width: width ?? context.width,
-              child: Center(
-                child: titleWidget ?? Text(title ?? '',style: textStyle??context.textTheme.bodyMedium, textAlign: TextAlign.center),
-              ),
-            ),
-          );
-        else if (buttonState.value == PageState.loading)
-          return const CircularProgressIndicator().alignAtCenter();
-
-        else
-          return const SizedBox();
-      },
-    );
-  if (buttonType == ButtonType.outlined)
-    return OutlinedButton(
-      onPressed: onTap,
-      child: SizedBox(
-        height: height ?? 20,
-        width: width ?? context.width,
-        child: Center(
-          child: titleWidget ?? Text(title ?? '', textAlign: TextAlign.center),
-        ),
-      ),
-    );
-  if (buttonType == ButtonType.text)
-    return TextButton(
-      onPressed: onTap,
-      child: SizedBox(
-        height: height ?? 20,
-        width: width ?? context.width,
-        child: Center(
-          child: titleWidget ?? Text(title ?? '', textAlign: TextAlign.center),
-        ),
-      ),
-    );
-  return const SizedBox();
-}
-
-Widget textFieldTypeAhead<T>({
-  required final void Function(T) onSuggestionSelected,
-  required final SuggestionsCallback<T> suggestionsCallback,
-  final Widget Function(BuildContext context, T itemData)? itemBuilder,
-  final String? text,
-  final String? hint,
-  final Widget? prefix,
-  final VoidCallback? onTap,
-  final Color? fillColor,
-  final TextEditingController? controller,
-  final bool hideKeyboard = false,
-  final Function(String)? onChanged,//
-}) =>
-    column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        if (text != null) Text(text, style: textTheme.titleSmall).paddingSymmetric(vertical: 8),
-        TypeAheadField<T>(
-          textFieldConfiguration: TextFieldConfiguration(
-            onTap: () {
-              if (controller!.selection == TextSelection.fromPosition(TextPosition(offset: controller.text.length - 1)))
-                controller.selection = TextSelection.fromPosition(
-                  TextPosition(offset: controller.text.length),
-                );
-            },
-            controller: controller,
-            onChanged: onChanged,
-            scrollPadding: const EdgeInsets.symmetric(vertical: 16),
-            decoration: InputDecoration(prefixIcon: prefix?.paddingOnly(left: 8, right: 12), fillColor: fillColor, hintText: hint),
-          ),
-          hideKeyboard: hideKeyboard,
-          suggestionsCallback: suggestionsCallback,
-          itemBuilder: itemBuilder ??
-              (final BuildContext context, final Object? suggestion) => Container(
-                    margin: const EdgeInsets.all(4),
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    child: Text(suggestion.toString()),
-                  ),
-          onSuggestionSelected: onSuggestionSelected,
-        ),
-      ],
-    );
-
-Widget radioListTile<T>({
-  required final T value,
-  required final T groupValue,
-  required final String title,
-  required final String subTitle,
-  required final Function(T?)? onChanged,
-  final bool toggleable = true,
-}) =>
-    RadioListTile<T>(
-      toggleable: toggleable,
-      controlAffinity: ListTileControlAffinity.leading,
-      title: Text(title),
-      subtitle: FittedBox(alignment: Alignment.centerRight, fit: BoxFit.scaleDown, child: Text(subTitle)),
-      groupValue: groupValue,
-      value: value,
-      onChanged: onChanged,
-    ).container(radius: 20, borderColor: context.theme.colorScheme.onBackground.withOpacity(0.2)).paddingSymmetric(horizontal: 20);

@@ -1,6 +1,6 @@
 part of 'components.dart';
 
-Widget appButton({
+Widget button({
   required final VoidCallback onTap,
   final String title = "",
   final EdgeInsets margin = EdgeInsets.zero,
