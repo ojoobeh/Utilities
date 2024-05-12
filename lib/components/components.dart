@@ -36,3 +36,4 @@ part 'plus_minus.dart';
 part 'rating_bar.dart';
 part 'readmore.dart';
 part 'scrolling_text.dart';
+part 'button.dart';
