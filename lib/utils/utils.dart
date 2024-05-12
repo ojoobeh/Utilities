@@ -208,3 +208,6 @@ Future<bool> backToHomeWhenIndexIsNot0({required final int currentBottomNavigati
     return Future<bool>.value(false);
   }
 }
+void dismissLoading() {
+  if (Get.isDialogOpen ?? false) back();
+}
