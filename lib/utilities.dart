@@ -1,23 +1,34 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:utilities/utilities.dart';
 
 export 'dart:async';
 export 'dart:convert';
-import 'utilities_platform_interface.dart';
 
-export 'package:collection/collection.dart';
+export 'package:file_picker/file_picker.dart';
+export 'package:flutter/material.dart';
+export 'package:flutter_easyloading/flutter_easyloading.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:get/get.dart';
 export 'package:get_storage/get_storage.dart';
 export 'package:path_provider/path_provider.dart';
-export 'package:utilities/widget/image.dart';
-export 'package:utilities/util/app_icons.dart';
-export 'package:utilities/util/local_storage.dart';
-export 'package:utilities/util/http_interceptor.dart';
+export 'package:url_launcher/url_launcher.dart';
 
+export 'components/components.dart';
+export 'components/fdottedline.dart';
+export 'components/percent_indicator.dart';
+export 'utils/utils.dart';
 
-class Utilities {
-  Future<String?> getPlatformVersion() {
-    return UtilitiesPlatform.instance.getPlatformVersion();
-  }
+Future<void> initUtilities({
+  final bool safeDevice = false,
+  final bool protectDataLeaking = false,
+  final bool preventScreenShot = false,
+  final List<DeviceOrientation> deviceOrientations = const <DeviceOrientation>[
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ],
+}) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(deviceOrientations);
+  await GetStorage.init();
+  return;
 }
