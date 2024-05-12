@@ -76,6 +76,11 @@ extension WidgetsExtension on Widget {
   Widget translate(final Offset offset) => Transform.translate(offset: offset, child: this);
 
   Widget rotate(final double scale) => Transform.rotate(angle: scale, child: this);
+  Widget marginStart(double width) => Row(children: [SizedBox(width: width), this]);
+
+  Widget marginEnd(double width) => Row(children: [this, SizedBox(width: width)]);
+  Widget marginTop(double height) => Container(margin: EdgeInsets.only(top:height ),child: this,);
+  Widget marginBottom(double height) => Container(margin: EdgeInsets.only(bottom:height ),child: this,);
 
   Widget safeArea() => SafeArea(child: this);
 
