@@ -19,34 +19,32 @@ Widget button({
   final Color? titleColor,
 }) =>
     Container(
-      width:  width,
+      width: width,
       height: height,
       padding: margin,
       child: ElevatedButton(
         onPressed: onTap,
         style: ButtonStyle(
           padding: MaterialStateProperty.all(padding),
-
-          shadowColor: MaterialStateProperty.all(backgroundColor??context.theme.primaryColorDark),
-          backgroundColor: MaterialStateProperty.all(backgroundColor??Colors.green),
+          shadowColor: MaterialStateProperty.all(backgroundColor ?? context.theme.primaryColorDark),
+          backgroundColor: MaterialStateProperty.all(backgroundColor ?? Colors.green),
           shape: borderRadius == null
               ? null
               : MaterialStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius), side: BorderSide(color: borderColor ?? Colors.transparent)),
-          ),
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius), side: BorderSide(color: borderColor ?? Colors.transparent)),
+                ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             leading,
-            titleWidget ?? Text(title, style: textStyle??context.textTheme.bodyMedium!.copyWith(color: titleColor ?? Colors.white,fontSize: fontSize) ),
+            titleWidget ?? Text(title, style: textStyle ?? context.textTheme.bodyMedium!.copyWith(color: titleColor ?? Colors.white, fontSize: fontSize)),
             trailing,
           ],
         ),
       ),
     );
-
 
 Widget borderButton({
   final Function()? onTap,
@@ -63,7 +61,7 @@ Widget borderButton({
           borderRadius: BorderRadius.circular(10),
         ),
         splashFactory: NoSplash.splashFactory,
-        backgroundColor: backgroundColor?? context.theme.scaffoldBackgroundColor,
+        backgroundColor: backgroundColor ?? context.theme.scaffoldBackgroundColor,
         side: BorderSide(
           width: borderWidth ?? 1,
           color: borderColor ?? Colors.red,
