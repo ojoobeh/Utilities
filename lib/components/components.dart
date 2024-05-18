@@ -1,17 +1,13 @@
 import 'dart:io';
 import 'dart:math';
 
-// import 'package:equatable/equatable.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:logger/logger.dart';
-import 'package:persian_datetime_picker/persian_datetime_picker.dart';
-// import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:utilities/utilities.dart';
 import 'package:lottie/lottie.dart' as lottie;
 
@@ -37,3 +33,4 @@ part 'rating_bar.dart';
 part 'readmore.dart';
 part 'scrolling_text.dart';
 part 'button.dart';
+part 'dialogs.dart';
